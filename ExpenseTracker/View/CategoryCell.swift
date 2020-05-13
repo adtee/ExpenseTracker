@@ -10,8 +10,11 @@ import UIKit
 
 class CategoryCell: UICollectionViewCell {
     
+    //MARK: Outlates
     @IBOutlet weak var labelCategory: UILabel!
     @IBOutlet weak var viewWrapper: UIView!
+    
+    //MARK: Variables
     
     var categoryInfo : CategoryModel?{
         didSet{
@@ -20,6 +23,7 @@ class CategoryCell: UICollectionViewCell {
         }
     }
     
+    //MARK: Cell lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -29,6 +33,7 @@ class CategoryCell: UICollectionViewCell {
         self.viewWrapper.backgroundColor = .clear
     }
     
+    //MARK: UI Setup
     func setupCell(){
         viewWrapper.layer.borderColor = UIColor.black.cgColor
         viewWrapper.layer.borderWidth = 2

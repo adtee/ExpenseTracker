@@ -10,6 +10,7 @@ import Foundation
 
 extension String{
     
+    /// check if string is not blank
     func isOnlyWhiteSpaces()->Bool{
         return self.trimmingCharacters(in: .whitespaces).isEmpty
     }

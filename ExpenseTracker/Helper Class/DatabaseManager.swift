@@ -72,22 +72,23 @@ class DatabaseManager{
         {
             if sqlite3_step(createTableStatement) == SQLITE_DONE
             {
-                print("table created.")
+                print("table created successfully.")
             } else {
                 print("table could not be created.")
             }
-        } else {
-            print("CREATE TABLE statement could not be prepared.")
         }
         sqlite3_finalize(createTableStatement)
     }
     
     //MARK: Category
+    
+    /// add default categories
     func addDefaultCategories(){
+        DatabaseManager.shared.categories = []
         let categoriesString = ["Fuel","Food","Grocery","Electronics","Shopping","Subscriptions"]
         for (index,category) in categoriesString.enumerated(){
             
-            //read categories and append to array if not addded before then add
+            ///read categories and append to array if not addded before then add
             var isAlreadyAdded : Bool = false
             let queryStatementString = "SELECT id FROM \(DatabaseTable.category.rawValue) WHERE id = ?;"
             var queryStatement: OpaquePointer? = nil
@@ -100,9 +101,8 @@ class DatabaseManager{
                     print("Already exists")
                     break
                 }
-            } else {
-                print("SELECT statement could not be prepared")
             }
+            
             sqlite3_finalize(queryStatement)
             if isAlreadyAdded{
                 continue
@@ -115,12 +115,7 @@ class DatabaseManager{
                 sqlite3_bind_text(insertStatement, 2, (category as NSString).utf8String, -1, nil)
                 if sqlite3_step(insertStatement) == SQLITE_DONE {
                     categories.append(CategoryModel(categoryId: index, categoryName: category))
-                    print("Successfully inserted row.")
-                } else {
-                    print("Could not insert row.")
                 }
-            } else {
-                print("INSERT statement could not be prepared.")
             }
             sqlite3_finalize(insertStatement)
         }
@@ -128,12 +123,15 @@ class DatabaseManager{
     
     
     //MARK: Expense
+    
+    /// insert into expense table
     func insertExpense(timestamp:String, title:String, amount:Double,date:Double,notes:String,category:String)->Bool
     {
-        let expenses = fetchExpenseTableWithQuery(queryString: "SELECT * FROM \(DatabaseTable.expense.rawValue);")
-        for p in expenses
+        //Guard adding exisitng value to the database
+        let exisitngExpenses = fetchExpenseTableWithQuery(queryString: "SELECT * FROM \(DatabaseTable.expense.rawValue);")
+        for expense in exisitngExpenses
         {
-            if p.timestamp == timestamp
+            if expense.timestamp == timestamp
             {
                 return false
             }
@@ -145,24 +143,21 @@ class DatabaseManager{
             sqlite3_bind_text(insertStatement, 2, (title as NSString).utf8String, -1, nil)
             sqlite3_bind_double(insertStatement, 3, amount)
             sqlite3_bind_double(insertStatement, 4, date)
-            //sqlite3_bind_text(insertStatement, 4, (date as NSString).utf8String, -1, nil)
             sqlite3_bind_text(insertStatement, 5, (notes as NSString).utf8String, -1, nil)
             sqlite3_bind_text(insertStatement, 6, (category as NSString).utf8String, -1, nil)
             
             if sqlite3_step(insertStatement) == SQLITE_DONE {
-                print("Successfully inserted row.")
                 sqlite3_finalize(insertStatement)
                 return true
             } else {
-                print("Could not insert row.")
                 return false
             }
         } else {
-            print("INSERT statement could not be prepared.")
             return false
         }
     }
     
+    /// fetch details from expense table
     func fetchExpenseTableWithQuery(queryString:String)->[ExpenseModel]{
         
         let queryStatementString = queryString
@@ -174,8 +169,6 @@ class DatabaseManager{
                 let exp = ExpenseModel.init(timestamp:  String(describing: String(cString: sqlite3_column_text(queryStatement, 0))), title: String(describing: String(cString: sqlite3_column_text(queryStatement, 1))), amount: sqlite3_column_double(queryStatement, 2), date: sqlite3_column_double(queryStatement, 3), notes: String(describing: String(cString: sqlite3_column_text(queryStatement, 4))), category: String(describing: String(cString: sqlite3_column_text(queryStatement, 5))))
                 expenses.append(exp)
             }
-        } else {
-            print("SELECT statement could not be prepared")
         }
         sqlite3_finalize(queryStatement)
         return expenses

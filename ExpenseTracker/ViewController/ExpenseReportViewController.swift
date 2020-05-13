@@ -44,7 +44,7 @@ class ExpenseReportViewController: UIViewController {
     //MARK: Outlate actions
     
     @IBAction func buttonFilterByDatesAction(_ sender: Any) {
-        //validate if fields are not blank
+        ///validate if fields are not blank
         guard textFieldStartDate.text != "" || textFieldEndDate.text != "" else{
             self.showAlertDialog(title: nil, Message: "Please select Start and end date", actiontitle: "Okay")
             return
@@ -64,7 +64,6 @@ class ExpenseReportViewController: UIViewController {
         default:
             break
         }
-        
         filterExpenses(fromStartDate: fromDate.timeIntervalSince1970 , toEndDate:  Date().timeIntervalSince1970)
     }
     
@@ -87,7 +86,7 @@ extension ExpenseReportViewController{
         
         datePicker.datePickerMode = .date
         datePicker.maximumDate = Date()
-        let toolbar = UIToolbar()
+        let toolbar = UIToolbar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: view.frame.size.width, height: CGFloat(44))))
         toolbar.barStyle = .default
         toolbar.isTranslucent = true
         
@@ -111,7 +110,7 @@ extension ExpenseReportViewController{
         categoryPicker.delegate = self
         categoryPicker.dataSource = self
         
-        let toolbar = UIToolbar()
+        let toolbar = UIToolbar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: view.frame.size.width, height: CGFloat(44))))
         toolbar.barStyle = .default
         toolbar.isTranslucent = true
         
@@ -177,7 +176,6 @@ extension ExpenseReportViewController : UITableViewDelegate,UITableViewDataSourc
         return 72
     }
     
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
@@ -209,17 +207,18 @@ extension ExpenseReportViewController : UIPickerViewDelegate,UIPickerViewDataSou
 //MARK: Database interaction
 extension ExpenseReportViewController{
     
-    //Get initial data
+    ///Get initial data
     func fetchRecordsFRomDatabase(){
         arrExpenseRecords = DatabaseManager.shared.fetchExpenseTableWithQuery(queryString: "SELECT * FROM \(DatabaseTable.expense.rawValue);")
     }
     
+    /// Filter expense data between given dates
     func filterExpenses(fromStartDate:Double,toEndDate:Double){
         arrExpenseRecords =
             DatabaseManager.shared.fetchExpenseTableWithQuery(queryString: "SELECT * FROM \(DatabaseTable.expense.rawValue) WHERE date >= \"\(fromStartDate)\" AND date <= \"\(toEndDate)\";")
-        
     }
     
+    /// Filter data as per the category
     func filterByCategory(){
         let categoryId =  DatabaseManager.shared.categories.first { (categoryObj) -> Bool in
             return categoryObj.categoryName == textFieldCategory.text ?? ""

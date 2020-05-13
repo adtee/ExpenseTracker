@@ -77,7 +77,7 @@
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Expense Amount" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qEM-Pw-rwE">
                                                                 <rect key="frame" x="0.0" y="99" width="398" height="34"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits"/>
+                                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                             </textField>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HvI-il-QpZ">
                                                                 <rect key="frame" x="0.0" y="141" width="398" height="20.5"/>
@@ -227,16 +227,14 @@
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="17r-mg-wUI" firstAttribute="top" secondItem="AnE-LV-Q96" secondAttribute="top" id="681-oh-unJ"/>
+                                    <constraint firstItem="17r-mg-wUI" firstAttribute="top" secondItem="NwU-o8-D86" secondAttribute="top" id="681-oh-unJ"/>
                                     <constraint firstItem="17r-mg-wUI" firstAttribute="centerX" secondItem="NwU-o8-D86" secondAttribute="centerX" id="Rre-E2-EKm"/>
                                     <constraint firstAttribute="bottom" secondItem="17r-mg-wUI" secondAttribute="bottom" id="jtT-cZ-Z7j"/>
-                                    <constraint firstItem="17r-mg-wUI" firstAttribute="trailing" secondItem="AnE-LV-Q96" secondAttribute="trailing" id="kzv-GR-5W7"/>
+                                    <constraint firstItem="17r-mg-wUI" firstAttribute="trailing" secondItem="NwU-o8-D86" secondAttribute="trailing" id="kzv-GR-5W7"/>
                                     <constraint firstAttribute="trailing" secondItem="17r-mg-wUI" secondAttribute="trailing" id="l5Q-KG-2ex"/>
-                                    <constraint firstItem="17r-mg-wUI" firstAttribute="leading" secondItem="AnE-LV-Q96" secondAttribute="leading" id="oUU-id-MhB"/>
+                                    <constraint firstItem="17r-mg-wUI" firstAttribute="leading" secondItem="NwU-o8-D86" secondAttribute="leading" id="oUU-id-MhB"/>
                                     <constraint firstItem="17r-mg-wUI" firstAttribute="leading" secondItem="NwU-o8-D86" secondAttribute="leading" id="p8c-14-2Rb"/>
                                 </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="qP2-di-jkP"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="AnE-LV-Q96"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>

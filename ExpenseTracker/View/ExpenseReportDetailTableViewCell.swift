@@ -18,16 +18,15 @@ class ExpenseReportDetailTableViewCell: UITableViewCell {
     @IBOutlet weak var labelNote: UILabel!
     @IBOutlet weak var labelCategory: UILabel!
     
-    
-    
     //MARK: Variables
     var expenseObject : ExpenseModel?{
         didSet{
+            /// assign relative values to UI
             labelExpenseTitle.text = expenseObject?.title ?? ""
             labelAmount.text = "\(expenseObject?.amount ?? 0.0)"
             labelDate.text = Date(milliseconds: Int64(expenseObject!.date)).formateDateIn()
             labelNote.text = expenseObject?.notes ?? ""
-            labelCategory.text = expenseObject?.category?.components(separatedBy: ",").compactMap({ (id) -> String in
+            labelCategory.text = expenseObject?.category.components(separatedBy: ",").compactMap({ (id) -> String in
                 return  DatabaseManager.shared.categories.first { (categoryObj) -> Bool in
                     return categoryObj.categoryId == Int(id)
                     }?.categoryName ?? ""
@@ -35,6 +34,7 @@ class ExpenseReportDetailTableViewCell: UITableViewCell {
         }
     }
     
+    //MARK: Cell lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

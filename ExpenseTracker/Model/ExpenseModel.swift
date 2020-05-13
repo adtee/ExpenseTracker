@@ -10,9 +10,9 @@ import Foundation
 
 struct ExpenseModel{
     let timestamp:String
-    let title: String?
-    let amount: Double?
+    let title: String
+    let amount: Double
     let date : Double
     let notes : String?
-    let category : String?
+    let category : String
 }

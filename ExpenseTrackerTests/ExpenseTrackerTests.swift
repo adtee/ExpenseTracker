@@ -18,10 +18,17 @@ class ExpenseTrackerTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    
+    ///Database Category test
+    func testCategories() throws {
+        DatabaseManager.shared.connectDb()
+        XCTAssertEqual(DatabaseManager.shared.categories.count, 6, "all categories must be added in tabel")
+    }
+    
+    ///Test expenseModel values assigns properly or not
+    func testInsertion() throws{
+        let expensedata = ExpenseModel(timestamp: "45656565", title: "Expense 1", amount: 500.0, date: 565656565, notes: nil, category: "1")
+        XCTAssertEqual(expensedata.amount, 500.0)
     }
 
     func testPerformanceExample() throws {

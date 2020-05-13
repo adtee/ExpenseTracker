@@ -23,9 +23,9 @@ class AddExpenseViewController: UIViewController {
     //MARK: ViewController Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         setupUI()
         
+        /// ask for password  if user has setup before - dont allow to use app untill adds password
         if UserDefaults.standard.string(forKey: "password") != nil{
             askForPassword()
         }
@@ -34,7 +34,7 @@ class AddExpenseViewController: UIViewController {
     //MARK: Outlate Actions
     
     @IBAction func buttonAddPasswordAction(_ sender: Any) {
-        self.showInputDialog(title: "Expense Tracker", subtitle: "Add Password to protect your data.", actionTitle: "Save", cancelTitle: "Cancel", inputPlaceholder: "Enter Password", inputKeyboardType: .default, cancelHandler: { (action) in
+        self.showInputDialog(title: "Expense Tracker", subtitle: "Add Password to protect your data.", actionTitle: "Save", cancelTitle: "Cancel", inputPlaceholder: "Enter Password",inputTypeSecure: true, inputKeyboardType: .default, cancelHandler: { (action) in
             //do nothing
         }) { (passwordString) in
             UserDefaults.standard.set(passwordString, forKey: "password")
@@ -70,11 +70,13 @@ class AddExpenseViewController: UIViewController {
         
         //validate text inputs
         if textFieldExpenseTitle.text?.isOnlyWhiteSpaces() ?? false{
-            self.showAlertDialog(title: nil, Message: "Please enter Title", actiontitle: "Okay")
-            self.textFieldExpenseTitle.becomeFirstResponder()
+            self.showAlertDialog(title: nil, Message: "Please enter title", actiontitle: "Okay") { (action) in
+                self.textFieldExpenseTitle.becomeFirstResponder()
+            }
         }else if textFieldExpenseAmount.text?.isOnlyWhiteSpaces() ?? false{
-            self.showAlertDialog(title: nil, Message: "Please enter Amount", actiontitle: "Okay")
-            self.textFieldExpenseAmount.becomeFirstResponder()
+            self.showAlertDialog(title: nil, Message: "Please enter Amount", actiontitle: "Okay"){ (action) in
+                 self.textFieldExpenseAmount.becomeFirstResponder()
+            }
         }else if categoryString.count == 0{
             self.showAlertDialog(title: nil, Message: "Please select category", actiontitle: "Okay")
         }else if textFieldExpenseDate.text?.isOnlyWhiteSpaces() ?? false{
@@ -97,7 +99,7 @@ class AddExpenseViewController: UIViewController {
     
     //MARK: Password
     func askForPassword(){
-        self.showInputDialog(title: "Expense Tracker", subtitle: "Add Password to unlock your data.", actionTitle: "Submit", cancelTitle: "Cancel", inputPlaceholder: "Enter Password", inputKeyboardType: .default, cancelHandler: { (action) in
+        self.showInputDialog(title: "Expense Tracker", subtitle: "Add Password to unlock your data.", actionTitle: "Submit", cancelTitle: "Cancel", inputPlaceholder: "Enter Password",inputTypeSecure: true, inputKeyboardType: .default, cancelHandler: { (action) in
             //Ask for password again
             self.askForPassword()
         }) { (passwordString) in
@@ -117,7 +119,7 @@ extension AddExpenseViewController{
     func linkDatePicker(){
         
         datePicker.datePickerMode = .date
-        let toolbar = UIToolbar()
+        let toolbar = UIToolbar(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: view.frame.size.width, height: CGFloat(44))))
         toolbar.barStyle = .default
         toolbar.isTranslucent = true
         

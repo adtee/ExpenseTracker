@@ -10,27 +10,31 @@ import Foundation
 import UIKit
 
 extension Date {
+    
+    /// iget current time stamp
     static var currentTimeStamp: Int64{
         return Int64(Date().timeIntervalSince1970)
     }
     
-    
+    /// get timestamp from date
     var timeStamp:Int64 {
         return Int64((self.timeIntervalSince1970))
     }
     
+    /// get date from the timestamp
     init(milliseconds:Int64) {
         self = Date(timeIntervalSince1970: TimeInterval(milliseconds))
     }
     
+    /// formate date
     func formateDateIn(formate:String = "dd/MM/yyyy")->String{
         let formatter = DateFormatter()
         formatter.dateFormat = formate
         return formatter.string(from: self)
     }
     
-    
-    func getNewDateAfterAdding(daysToAdd:Int=0,monthsToadd:Int=0,yearsToAdd:Int=0)->Date{
+    /// Get future or previous date
+    func getNewDateAfterAdding(daysToAdd:Int?=0,monthsToadd:Int?=0,yearsToAdd:Int?=0)->Date{
         let monthsToAdd = monthsToadd
         let daysToAdd = daysToAdd
         let yearsToAdd = yearsToAdd
@@ -49,6 +53,8 @@ extension Date {
 
 
 extension String{
+    
+    /// Convert string to date timestamp
     func getTimeStempFromString()->Double{
         
         let dateFormatter = DateFormatter()
